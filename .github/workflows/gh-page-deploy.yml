@@ -26,7 +26,12 @@ jobs:
       - name: Installing dependencies
         run: npm ci
 
-      - name: Build and deploy
-        run: npm run deploy
+      - name: Generate statics
+        run: npm run build
+
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@3.6.2
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: gh-pages
+          FOLDER: public
