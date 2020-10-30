@@ -8,6 +8,7 @@ export const GlobalStyle = createGlobalStyle`
     padding: 0;
     box-sizing: border-box;
     text-decoration: none;
+    font-family: 'Montserrat Alternates', sans-serif;
   }
 
   html, 
@@ -24,6 +25,6 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   body {
-    background-color: ${COLOR.WHISPER};
+    background-color: ${COLOR.MYSTIC};
   }
 `

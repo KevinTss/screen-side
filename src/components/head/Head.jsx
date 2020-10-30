@@ -24,7 +24,24 @@ const Head = () => {
       <link href={baseUrl} rel="canonical" />
       <link rel="alternate" href={baseUrl} hreflang="x-default" />
       <link rel="alternate" href={baseUrl} hreflang="en" />
+      <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@300;700&display=swap"
+        rel="stylesheet"
+      ></link>
       <title>{"Screen Side - Build Web sites and apps"}</title>
+      <script
+        async
+        src="https://www.googletagmanager.com/gtag/js?id=G-H1BXT093J4"
+      ></script>
+      <script>
+        {`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+        
+          gtag('config', 'G-H1BXT093J4');
+        `}
+      </script>
     </Helmet>
   )
 }

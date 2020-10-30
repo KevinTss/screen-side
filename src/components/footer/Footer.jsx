@@ -1,7 +1,14 @@
 import React from "react"
 
-const Footer = () => {
-  return <footer>footer</footer>
+import { Footer } from "./style"
+import { P } from "../ui"
+
+const FooterSection = () => {
+  return (
+    <Footer>
+      <P>&copy; {`${new Date().getFullYear()} ScreenSide`}</P>
+    </Footer>
+  )
 }
 
-export default Footer
+export default FooterSection
