@@ -2,11 +2,14 @@ import React from "react"
 
 import { Footer } from "./style"
 import { P } from "../ui"
+import { Container } from "../../styles"
 
 const FooterSection = () => {
   return (
     <Footer>
-      <P>&copy; {`${new Date().getFullYear()} ScreenSide`}</P>
+      <Container>
+        <P>&copy; {`${new Date().getFullYear()} ScreenSide`}</P>
+      </Container>
     </Footer>
   )
 }
