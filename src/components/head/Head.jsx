@@ -29,19 +29,6 @@ const Head = () => {
         rel="stylesheet"
       ></link>
       <title>{"Screen Side - Build Web sites and apps"}</title>
-      <script
-        async
-        src="https://www.googletagmanager.com/gtag/js?id=G-H1BXT093J4"
-      ></script>
-      <script>
-        {`
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-        
-          gtag('config', 'G-H1BXT093J4');
-        `}
-      </script>
     </Helmet>
   )
 }
