@@ -1,7 +1,9 @@
 import React from "react"
 
-const Button = ({ children, ...props }) => {
-  return <button {...props}>{children}</button>
+import { Button } from "./style"
+
+const ButtonEl = ({ children, ...props }) => {
+  return <Button {...props}>{children}</Button>
 }
 
-export default Button
+export default ButtonEl

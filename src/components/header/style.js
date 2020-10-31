@@ -15,6 +15,7 @@ export const Header = styled.header`
   border-bottom-left-radius: 25px;
   border-bottom-right-radius: 25px;
   background-color: white;
+  z-index: 2;
 `
 
 export const Content = styled.div`
