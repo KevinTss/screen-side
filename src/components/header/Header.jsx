@@ -1,7 +1,7 @@
 import React from "react"
 import { useStaticQuery, graphql } from "gatsby"
 
-import { Header, Content, Nav, NavItem } from "./style"
+import { Header, Content, Nav } from "./style"
 import { Container } from "../../styles"
 import Logo from "../logo"
 
