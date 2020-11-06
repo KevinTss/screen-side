@@ -33,22 +33,27 @@ export const FormGroup = styled.div`
   }
 `
 
-export const SuccessContainer = styled(({ isVisible, ...props }) => (
+export const AlertContainer = styled(({ isVisible, type, ...props }) => (
   <div {...props} />
 ))`
   position: relative;
   width: 100%;
   overflow: hidden;
-  background-color: ${COLOR.SHAMROCK}22;
+  background-color: ${({ type }) =>
+    type === "danger" ? `${COLOR.CARNATION}22` : `${COLOR.SHAMROCK}22`};
   border-radius: 20px;
   transition: all 0.3s ease;
 
-  ${({ isVisible }) => {
+  ${({ isVisible, type }) => {
     if (isVisible) {
       return `
         height: auto;
-        padding: 20px;
-        border: 2px solid ${COLOR.SHAMROCK}AA;
+        padding: 30px 20px 20px 20px;
+        border: ${
+          type === "danger"
+            ? `2px solid ${COLOR.CARNATION}AA`
+            : `2px solid ${COLOR.SHAMROCK}AA`
+        };
         visibility: visible;
         margin-bottom: 20px;
         `
@@ -66,16 +71,23 @@ export const SuccessContainer = styled(({ isVisible, ...props }) => (
     font-size: 1rem;
     text-align: center;
     font-weight: 700;
-    color: ${COLOR.SHAMROCK};
+    color: ${({ type }) =>
+      type === "danger" ? COLOR.CARNATION : COLOR.SHAMROCK};
 
     > span {
       font-size: 2rem;
       line-height: 150%;
     }
+
+    a {
+      color: ${({ type }) =>
+        type === "danger" ? COLOR.CARNATION : COLOR.SHAMROCK};
+      text-decoration: underline;
+    }
   }
 `
 
-export const SuccessCloseButton = styled.button`
+export const AlertCloseButton = styled.button`
   border: none;
   background-color: transparent;
   position: absolute;

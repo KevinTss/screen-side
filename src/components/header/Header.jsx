@@ -23,9 +23,7 @@ const HeaderSection = () => {
       <Container>
         <Content>
           <Logo logo={data.logo.childImageSharp} />
-          <Nav>
-            <NavItem to="/projects">Projects</NavItem>
-          </Nav>
+          <Nav>{/* <NavItem to="/projects">Projects</NavItem> */}</Nav>
         </Content>
       </Container>
     </Header>

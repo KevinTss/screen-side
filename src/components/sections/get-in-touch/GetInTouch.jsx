@@ -1,21 +1,22 @@
-import React, { useState, useEffect } from "react"
+import React, { useState } from "react"
 
 import {
   GetInTouchContainer,
   Form,
   FormGroup,
-  SuccessContainer,
-  SuccessCloseButton,
+  AlertContainer,
+  AlertCloseButton,
 } from "./style"
 import { Container } from "../../../styles"
 import { Input, Button, Label, Heading, P, Image } from "../../ui"
-import closeIcon from "../../../assets/images/icon/close.svg"
+import closeIconSuccess from "../../../assets/images/icon/close-success.svg"
+import closeIconDanger from "../../../assets/images/icon/close-danger.svg"
 import { COLOR } from "../../../utils/constants"
 
 const endPoint =
-  "https://hooks.slack.com/services/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"
+  "https://hooks.slack.com/services/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"
 
-const sendInfo = (data, callback) => {
+const sendInfo = (data, successCallback, errorCallback) => {
   const body = {
     text: `New message from ${data.name} — ${data.email}`,
     attachments: [
@@ -35,7 +36,40 @@ const sendInfo = (data, callback) => {
   fetch(endPoint, {
     method: "POST",
     body: JSON.stringify(body),
-  }).then(() => callback())
+  })
+    .then(res => {
+      if (res.ok) {
+        successCallback()
+      } else {
+        errorCallback(JSON.stringify(res))
+      }
+    })
+    .catch(err => errorCallback(err.message))
+}
+
+const sendErrorInfo = data => {
+  const body = {
+    text: `Error on form submission`,
+    attachments: [
+      {
+        color: COLOR.CARNATION,
+        fields: [
+          {
+            title: "Error message",
+            value: data.message,
+            short: false,
+          },
+        ],
+      },
+    ],
+  }
+
+  fetch(endPoint, {
+    method: "POST",
+    body: JSON.stringify(body),
+  }).then(res => {
+    console.log("res", res)
+  })
 }
 
 const canSendForm = (name, email, message) => {
@@ -51,10 +85,7 @@ const GetInTouch = () => {
   const [email, setEmail] = useState("")
   const [message, setMessage] = useState("")
   const [isSentMessage, setIsSentMessage] = useState(false)
-
-  useEffect(() => {
-    console.log("coucou", isSentMessage)
-  }, [isSentMessage])
+  const [error, setError] = useState(false)
 
   return (
     <GetInTouchContainer id="get-in-touch">
@@ -74,6 +105,12 @@ const GetInTouch = () => {
                 setEmail("")
                 setMessage("")
                 setIsSentMessage(true)
+              },
+              errorMessage => {
+                setError(true)
+                sendErrorInfo({
+                  message: errorMessage,
+                })
               }
             )
           }}
@@ -121,24 +158,46 @@ const GetInTouch = () => {
             />
           </FormGroup>
 
-          <SuccessContainer isVisible={isSentMessage}>
-            <SuccessCloseButton
+          <AlertContainer
+            isVisible={isSentMessage || error}
+            type={error ? "danger" : "success"}
+          >
+            <AlertCloseButton
               onClick={event => {
                 event.preventDefault()
-                setIsSentMessage(false)
+                error ? setError(false) : setIsSentMessage(false)
               }}
             >
-              <Image svg={closeIcon} />
-            </SuccessCloseButton>
-            <P>
-              Thank you for your message
-              <br />
-              <span role="img" aria-label="emoji smile">
-                🙌
-              </span>
-              <br />I will come back to you soon
-            </P>
-          </SuccessContainer>
+              <Image svg={error ? closeIconDanger : closeIconSuccess} />
+            </AlertCloseButton>
+            {error ? (
+              <P>
+                Sorry, something went wrong on our side, I'm working on it
+                <br />
+                <span role="img" aria-label="emoji grinning">
+                  😅
+                </span>
+                <br />
+                Try again later or reach me on{" "}
+                <a
+                  href="https://www.facebook.com/ScreenSideWebsiteCreation/"
+                  target="_blank"
+                  rel="noreferrer noopener"
+                >
+                  Facebook
+                </a>
+              </P>
+            ) : (
+              <P>
+                Thank you for your message
+                <br />
+                <span role="img" aria-label="emoji hand up">
+                  🙌
+                </span>
+                <br />I will come back to you soon
+              </P>
+            )}
+          </AlertContainer>
 
           <Button
             type="submit"
