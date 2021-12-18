@@ -4,7 +4,21 @@ export const COLOR = {
   CLOUD_BURST: "#1d254f",
   // DOLPHIN: "#656686",
   MYSTIC: "#e7ebf0",
-  // PICTON_BLUE: "#54b8f2",
+  PICTON_BLUE: "#54b8f2",
   // SHAMROCK: "#5ae0a6",
   // WHISPER: "#f6f7fa",
+}
+
+const BREAKPOINT = {
+  XL: "1280px",
+  L: "1024px",
+  M: "768px",
+  S: "498px",
+}
+
+export const MEDIA_QUERY = {
+  DESKTOP: `@media only screen and (min-width: ${BREAKPOINT.XL})`,
+  SMALL_DESKTOP_AND_DOWN: `@media only screen and (max-width: ${BREAKPOINT.XL})`,
+  TABLET_AND_DOWN: `@media only screen and (max-width: ${BREAKPOINT.M})`,
+  MOBILE_AND_DOWN: `@media only screen and (max-width: ${BREAKPOINT.S})`,
 }

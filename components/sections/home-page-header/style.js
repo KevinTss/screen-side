@@ -1,98 +1,49 @@
-import React from "react"
 import styled from "styled-components"
 
-import { COLOR } from "../../../utils/constants"
+import { COLOR, MEDIA_QUERY } from "../../../utils/constants"
+import { Heading, Text } from "../../ui"
 
 export const HomePageHeaderContainer = styled.div`
   display: flex;
   width: 100%;
   justify-content: center;
-`
+  padding: 100px 0;
 
-export const Form = styled.form`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  border-radius: 25px;
-  padding: 50px;
-  max-width: 50%;
-  margin: 100px auto;
-  box-shadow: 0px 0px 80px 0px ${COLOR.CLOUD_BURST}55;
-  background-color: white;
-`
-
-export const FormGroup = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 20px;
-  width: 100%;
-  position: relative;
-
-  > label {
-    margin-bottom: 5px;
+  ${MEDIA_QUERY.MOBILE_AND_DOWN} {
+    padding: 50px 0;
   }
 `
 
-export const AlertContainer = styled(({ isVisible, type, ...props }) => (
-  <div {...props} />
-))`
-  position: relative;
-  width: 100%;
-  overflow: hidden;
-  background-color: ${({ type }) =>
-    type === "danger" ? `${COLOR.CARNATION}22` : `${COLOR.SHAMROCK}22`};
-  border-radius: 20px;
-  transition: all 0.3s ease;
+export const MainTitle = styled(Heading)`
+  max-width: 630px;
+  line-height: 1.15em;
+  font-size: 48px;
+`
 
-  ${({ isVisible, type }) => {
-    if (isVisible) {
-      return `
-        height: auto;
-        padding: 30px 20px 20px 20px;
-        border: ${
-          type === "danger"
-            ? `2px solid ${COLOR.CARNATION}AA`
-            : `2px solid ${COLOR.SHAMROCK}AA`
-        };
-        visibility: visible;
-        margin-bottom: 20px;
-        `
-    }
+export const MainText = styled(Text)`
+  max-width: 600px;
+  line-height: 1.65em;
+  font-size: 24px;
+  margin-bottom: 50px;
 
-    return `
-      height: 0;
-      padding: 0;
-      border: 0;
-      visibility: hidden;
-    `
-  }}
-
-  > p {
-    font-size: 1rem;
-    text-align: center;
-    font-weight: 700;
-    color: ${({ type }) =>
-      type === "danger" ? COLOR.CARNATION : COLOR.SHAMROCK};
-
-    > span {
-      font-size: 2rem;
-      line-height: 150%;
-    }
-
-    a {
-      color: ${({ type }) =>
-        type === "danger" ? COLOR.CARNATION : COLOR.SHAMROCK};
-      text-decoration: underline;
-    }
+  ${MEDIA_QUERY.MOBILE_AND_DOWN} {
+    margin-bottom: 20px;
   }
 `
 
-export const AlertCloseButton = styled.button`
-  border: none;
-  background-color: transparent;
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  width: 16px;
+export const CTA = styled.a`
+  border-radius: 35px;
+  background-color: ${COLOR.CLOUD_BURST};
+  box-shadow: 0 15px 45px 0 rgba(20, 106, 255, 0.1);
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  line-height: 19px;
+  text-align: center;
+  padding: 20px 40px;
   cursor: pointer;
+  border: none;
+  margin-top: 10px;
+  transition: all 0.2s ease;
 `

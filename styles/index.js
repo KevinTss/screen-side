@@ -14,3 +14,10 @@ export const Main = styled.main`
   flex-grow: 1;
   z-index: 1;
 `
+
+export const Flex = styled.div`
+  display: flex;
+  flex-direction: ${({ direction }) => (direction ? direction : "row")};
+  justify-content: flex-start;
+  align-items: flex-start;
+`
