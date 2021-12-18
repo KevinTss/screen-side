@@ -13,8 +13,7 @@ export const GlobalStyle = createGlobalStyle`
 
   html, 
   body,
-  #___gatsby,
-  #gatsby-focus-wrapper {
+  #__next {
     width: 100%;
     height: 100%;
     display: flex;

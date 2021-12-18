@@ -1,11 +1,18 @@
 import Link from "next/link"
+import Image from "next/image"
 
-import { Image } from "../ui"
+import logoUrl from "../../public/logo.jpg"
 
-const Logo = ({ logo }) => (
+const Logo = () => (
   <Link href="/">
     <a>
-      <Image src={logo} />
+      <Image
+        src={logoUrl}
+        alt="Picture of the author"
+        width="150px"
+        height="60px"
+        objectFit="contain"
+      />
     </a>
   </Link>
 )

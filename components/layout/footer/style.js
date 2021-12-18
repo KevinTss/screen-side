@@ -7,8 +7,6 @@ export const Footer = styled.footer`
   justify-content: center;
   padding: 10px 0;
   background-color: ${COLOR.CLOUD_BURST};
-  border-top-left-radius: 25px;
-  border-top-right-radius: 25px;
 
   p {
     color: white;

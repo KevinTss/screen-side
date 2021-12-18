@@ -1,13 +1,12 @@
 import { Header, Content, Nav } from "./style"
 import { Container } from "../../../styles"
 import Logo from "../../logo"
-import logoUrl from "../../../assets/images/logo/logo.jpg"
 
 const HeaderSection = () => (
   <Header>
     <Container>
       <Content>
-        <Logo logo={logoUrl} />
+        <Logo />
         {/* <Nav><NavItem to="/projects">Projects</NavItem></Nav> */}
       </Content>
     </Container>
