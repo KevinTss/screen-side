@@ -22,3 +22,10 @@ export const MEDIA_QUERY = {
   TABLET_AND_DOWN: `@media only screen and (max-width: ${BREAKPOINT.M})`,
   MOBILE_AND_DOWN: `@media only screen and (max-width: ${BREAKPOINT.S})`,
 }
+
+export const ERROR_MESSAGE_CODE = {
+  NO_TOKEN: "no-token",
+  NOT_AUTHORIZED: "not-authorized",
+  NO_BODY_GIVEN: "no-body-given",
+  BODY_INCOMPLETE: "body-incomplete",
+}
