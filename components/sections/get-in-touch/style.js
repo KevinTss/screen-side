@@ -2,6 +2,7 @@ import React from "react"
 import styled from "styled-components"
 
 import { COLOR } from "../../../utils/constants"
+import { Text } from "../../ui"
 
 export const GetInTouchContainer = styled.div`
   display: flex;
@@ -33,6 +34,11 @@ export const FormGroup = styled.div`
   }
 `
 
+export const ErrorMessage = styled(Text)`
+  color: ${COLOR.CARNATION};
+  font-size: 14px;
+`
+
 export const AlertContainer = styled(({ isVisible, type, ...props }) => (
   <div {...props} />
 ))`
@@ -46,14 +52,12 @@ export const AlertContainer = styled(({ isVisible, type, ...props }) => (
 
   ${({ isVisible, type }) => {
     if (isVisible) {
+      const clr = type === "danger" ? COLOR.CARNATION : COLOR.SHAMROCK
+
       return `
         height: auto;
         padding: 30px 20px 20px 20px;
-        border: ${
-          type === "danger"
-            ? `2px solid ${COLOR.CARNATION}AA`
-            : `2px solid ${COLOR.SHAMROCK}AA`
-        };
+        border: 2px solid ${clr}AA;
         visibility: visible;
         margin-bottom: 20px;
         `

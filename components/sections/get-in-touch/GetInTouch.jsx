@@ -1,4 +1,7 @@
-import React, { useState } from "react"
+import { useState } from "react"
+import { useFormik } from "formik"
+import * as Yup from "yup"
+import axios from "axios"
 
 import {
   GetInTouchContainer,
@@ -6,115 +9,60 @@ import {
   FormGroup,
   AlertContainer,
   AlertCloseButton,
+  ErrorMessage,
 } from "./style"
 import { Container } from "../../../styles"
-import { Input, Button, Label, Heading, P, Image } from "../../ui"
+import { Input, Button, Label, Heading, Text, Image } from "../../ui"
 import closeIconSuccess from "../../../assets/images/icon/close-success.svg"
 import closeIconDanger from "../../../assets/images/icon/close-danger.svg"
-import { COLOR } from "../../../utils/constants"
 
-const endPoint =
-  "https://hooks.slack.com/services/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"
-
-const sendInfo = (data, successCallback, errorCallback) => {
-  const body = {
-    text: `New message from ${data.name} — ${data.email}`,
-    attachments: [
-      {
-        color: COLOR.PICTON_BLUE,
-        fields: [
-          {
-            title: "Message",
-            value: data.message,
-            short: false,
-          },
-        ],
-      },
-    ],
-  }
-
-  fetch(endPoint, {
-    method: "POST",
-    body: JSON.stringify(body),
-  })
-    .then(res => {
-      if (res.ok) {
-        successCallback()
-      } else {
-        errorCallback(JSON.stringify(res))
-      }
-    })
-    .catch(err => errorCallback(err.message))
-}
-
-const sendErrorInfo = data => {
-  const body = {
-    text: `Error on form submission`,
-    attachments: [
-      {
-        color: COLOR.CARNATION,
-        fields: [
-          {
-            title: "Error message",
-            value: data.message,
-            short: false,
-          },
-        ],
-      },
-    ],
-  }
-
-  fetch(endPoint, {
-    method: "POST",
-    body: JSON.stringify(body),
-  }).then(res => {
-    console.log("res", res)
-  })
-}
-
-const canSendForm = (name, email, message) => {
-  const isNameCorrect = !!name && name.length > 3
-  const isEmailCorrect = !!email && email.includes("@")
-  const isMessageCorrect = !!message && message.length > 10
-
-  return isNameCorrect && isEmailCorrect && isMessageCorrect
-}
+const formSchema = Yup.object().shape({
+  name: Yup.string().min(2, "Your name is too short").required("Required"),
+  email: Yup.string().email("Invalid email").required("Required"),
+  message: Yup.string()
+    .min(20, "Explain a little more your request")
+    .required("Required"),
+})
 
 const GetInTouch = () => {
-  const [name, setName] = useState("")
-  const [email, setEmail] = useState("")
-  const [message, setMessage] = useState("")
-  const [isSentMessage, setIsSentMessage] = useState(false)
-  const [error, setError] = useState(false)
+  const [isMessageSent, setIsMessageSent] = useState(false)
+  const [hasMessageError, setHasMessageError] = useState("")
+  const {
+    handleSubmit,
+    handleChange,
+    values,
+    errors,
+    handleBlur,
+    touched,
+    dirty,
+  } = useFormik({
+    initialValues: { name: "", email: "", message: "" },
+    validationSchema: formSchema,
+    onSubmit: async (values, { resetForm }) => {
+      try {
+        await axios({
+          method: "POST",
+          url: "/api/contact",
+          data: {
+            first: values.name.split(" ")[0] || "none",
+            last: values.name.split(" ")[1] || "none",
+            email: values.email,
+            message: values.message,
+          },
+        })
+        setIsMessageSent(true)
+        resetForm()
+      } catch (error) {
+        setIsMessageSent(true)
+        setHasMessageError(error.message)
+      }
+    },
+  })
 
   return (
-    <GetInTouchContainer id="get-in-touch">
+    <GetInTouchContainer id="contact-me">
       <Container>
-        <Form
-          onSubmit={event => {
-            event.preventDefault()
-
-            sendInfo(
-              {
-                name,
-                email,
-                message,
-              },
-              () => {
-                setName("")
-                setEmail("")
-                setMessage("")
-                setIsSentMessage(true)
-              },
-              errorMessage => {
-                setError(true)
-                sendErrorInfo({
-                  message: errorMessage,
-                })
-              }
-            )
-          }}
-        >
+        <Form onSubmit={handleSubmit}>
           <Heading level={3}>
             Let's chat{" "}
             <span role="img" aria-label="emoji smile">
@@ -129,9 +77,14 @@ const GetInTouch = () => {
               type="text"
               name="name"
               placeholder="John Doe"
-              value={name}
-              onChange={event => setName(event.target.value)}
+              value={values.name}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              hasError={touched.name && !!errors.name}
             />
+            {touched.name && errors.name && (
+              <ErrorMessage>{errors.name}</ErrorMessage>
+            )}
           </FormGroup>
 
           <FormGroup>
@@ -141,9 +94,14 @@ const GetInTouch = () => {
               type="email"
               name="email"
               placeholder="john.doe@email.com"
-              value={email}
-              onChange={event => setEmail(event.target.value)}
+              value={values.email}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              hasError={touched.email && !!errors.email}
             />
+            {touched.email && errors.email && (
+              <ErrorMessage>{errors.email}</ErrorMessage>
+            )}
           </FormGroup>
 
           <FormGroup>
@@ -153,26 +111,34 @@ const GetInTouch = () => {
               type="textarea"
               name="message"
               placeholder="Your awesome words here..."
-              value={message}
-              onChange={event => setMessage(event.target.value)}
+              value={values.message}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              hasError={touched.message && !!errors.message}
             />
+            {touched.message && errors.message && (
+              <ErrorMessage>{errors.message}</ErrorMessage>
+            )}
           </FormGroup>
 
           <AlertContainer
-            isVisible={isSentMessage || error}
-            type={error ? "danger" : "success"}
+            isVisible={isMessageSent}
+            type={hasMessageError ? "danger" : "success"}
           >
             <AlertCloseButton
               onClick={event => {
                 event.preventDefault()
-                error ? setError(false) : setIsSentMessage(false)
+                setIsMessageSent(false)
+                setHasMessageError("")
               }}
             >
-              <Image svg={error ? closeIconDanger : closeIconSuccess} />
+              <Image
+                src={hasMessageError ? closeIconDanger : closeIconSuccess}
+              />
             </AlertCloseButton>
-            {error ? (
-              <P>
-                Sorry, something went wrong on our side, I'm working on it
+            {hasMessageError ? (
+              <Text>
+                Sorry, something went wrong on my side, I'm working on it
                 <br />
                 <span role="img" aria-label="emoji grinning">
                   😅
@@ -186,25 +152,27 @@ const GetInTouch = () => {
                 >
                   Facebook
                 </a>
-              </P>
+              </Text>
             ) : (
-              <P>
+              <Text>
                 Thank you for your message
                 <br />
                 <span role="img" aria-label="emoji hand up">
                   🙌
                 </span>
                 <br />I will come back to you soon
-              </P>
+              </Text>
             )}
           </AlertContainer>
 
           <Button
             type="submit"
             data-track="get-in-touch"
-            disabled={!canSendForm(name, email, message)}
+            disabled={
+              !dirty && Object.keys(touched) === 3 && Object.keys(errors) === 0
+            }
           >
-            submit
+            Send message
           </Button>
         </Form>
       </Container>
