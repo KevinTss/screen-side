@@ -1,7 +1,7 @@
 import React from "react"
 import styled from "styled-components"
 
-import { COLOR } from "../../../utils/constants"
+import { COLOR, MEDIA_QUERY } from "../../../utils/constants"
 import { Text } from "../../ui"
 
 export const GetInTouchContainer = styled.div`
@@ -20,6 +20,15 @@ export const Form = styled.form`
   margin: 100px auto;
   box-shadow: 0px 0px 80px 0px ${COLOR.CLOUD_BURST}55;
   background-color: white;
+
+  ${MEDIA_QUERY.TABLET_AND_DOWN} {
+    max-width: 80%;
+  }
+  ${MEDIA_QUERY.MOBILE_AND_DOWN} {
+    margin: 50px auto;
+    max-width: 100%;
+    padding: 20px;
+  }
 `
 
 export const FormGroup = styled.div`
