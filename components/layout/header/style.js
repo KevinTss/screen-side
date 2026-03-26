@@ -1,6 +1,4 @@
 import styled from "styled-components"
-import Link from "next/link"
-
 import { COLOR } from "../../../utils/constants"
 
 export const Header = styled.header`
@@ -28,4 +26,20 @@ export const Nav = styled.nav`
   justify-content: flex-end;
 `
 
-export const NavItem = styled(({ ...props }) => <Link {...props} />)``
+export const CVButton = styled.button`
+  font-family: "Montserrat Alternates", sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: ${COLOR.CLOUD_BURST};
+  background: transparent;
+  border: 2px solid ${COLOR.CLOUD_BURST};
+  padding: 6px 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s;
+
+  &:hover {
+    background-color: ${COLOR.CLOUD_BURST};
+    color: white;
+  }
+`
