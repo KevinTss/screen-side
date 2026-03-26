@@ -12,7 +12,6 @@ const Head = () => (
   <>
     <NextHead>
       <title>{title}</title>
-      <html lang="en" />
       <meta charSet="utf-8" />
       <meta
         content="width=device-width, initial-scale=1, user-scalable=yes"
